@@ -1,0 +1,32 @@
+﻿#region XXX
+private string _XXX;
+[XmlSaveMode("Single")]
+public string XXX
+{
+    get
+    {
+        return _XXX;
+    }
+    set
+    {
+        _XXX = value;
+        NotifyPropertyChanged();
+    }
+}
+#endregion
+
+#region Display_XXX
+private bool _Display_XXX;
+public bool Display_XXX
+{
+    get
+    {
+        return _Display_XXX;
+    }
+    set
+    {
+        _Display_XXX = value;
+        NotifyPropertyChanged();
+    }
+}
+#endregion
