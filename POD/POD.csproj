@@ -75,6 +75,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\Controls\Checkbox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Controls\ComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -246,6 +250,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icons\screen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\mediadisc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\wrench.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\furniture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

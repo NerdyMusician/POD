@@ -278,6 +278,14 @@ namespace POD.Models
         }
         #endregion
 
+        private bool _HasCase;
+        [XmlSaveMode(XSME.Single)]
+        public bool HasCase
+        {
+            get => _HasCase;
+            set => SetAndNotify(ref _HasCase, value);
+        }
+
         // Databound Properties - Form Field Display Toggles
         #region Display_Brand
         private bool _Display_Brand;
@@ -373,6 +381,13 @@ namespace POD.Models
         }
         #endregion
 
+        private bool _Display_HasCase;
+        public bool Display_HasCase
+        {
+            get => _Display_HasCase;
+            set => SetAndNotify(ref _Display_HasCase, value);
+        }
+
         // Commands
         #region AddImage
         public ICommand AddImage => new RelayCommand(DoAddImage);
@@ -388,10 +403,24 @@ namespace POD.Models
                 foreach (string file in openWindow.FileNames)
                 {
                     string imageDirectory = Environment.CurrentDirectory + "/Data/Images/";
-                    int imageCount = Directory.GetFiles(imageDirectory).Count();
                     string fileExtension = Path.GetExtension(file);
-                    string newFile = $"{imageDirectory}{imageCount}{fileExtension}";
-                    File.Copy(file, newFile, true);
+                    string uid = "";
+                    string newFile = "";
+                    do
+                    {
+                        uid = Guid.NewGuid().ToString();
+                        newFile = $"{imageDirectory}{uid}{fileExtension}";
+                    }
+                    while (File.Exists(newFile));
+                    try
+                    {
+                        File.Copy(file, newFile, false);
+                    }
+                    catch (Exception e)
+                    {
+                        HelperMethods.NotifyUser(e.Message);
+                        continue;
+                    }
                     ItemImages.Add(new(newFile));
                 }
             }
@@ -427,6 +456,7 @@ namespace POD.Models
             Display_Publisher = false;
             Display_ISBN = false;
             Display_SerialNumber = false;
+            Display_HasCase = false;
 
             // Set to true based on type
             switch (CardType)
@@ -447,6 +477,9 @@ namespace POD.Models
                 case "Firearm":
                     Display_Brand = true;
                     Display_SerialNumber = true;
+                    break;
+                case "Media":
+                    Display_HasCase = true;
                     break;
                 default:
                     return;

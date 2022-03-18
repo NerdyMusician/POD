@@ -135,6 +135,10 @@
                             <TextBlock Text="ISBN" Style="{StaticResource TBK_FieldLabel}" />
                             <TextBox Text="{Binding ActiveCard.ISBN, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
                         </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_HasCase, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
+                            <TextBlock Text="Has Case" Style="{StaticResource TBK_FieldLabel}" />
+                            <CheckBox IsChecked="{Binding ActiveCard.HasCase, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BaseCheckBox}" />
+                        </StackPanel>
                         <StackPanel Style="{StaticResource SPL_FieldRow}">
                             <TextBlock Text="Purchase Location" Style="{StaticResource TBK_FieldLabel}" />
                             <TextBox Text="{Binding ActiveCard.PurchaseLocation, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
@@ -184,6 +188,11 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border Height="128" Width="128" BorderBrush="DarkSlateGray" Background="#222222" Margin="2">
+                                        <Border.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Delete Image" Command="{Binding RemoveImage}" />
+                                            </ContextMenu>
+                                        </Border.ContextMenu>
                                         <Image Source="{Binding FullFilePath}" Margin="2" MouseLeftButtonUp="Image_MouseUp">
                                             <Image.ContextMenu>
                                                 <ContextMenu>

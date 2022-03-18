@@ -65,5 +65,14 @@
     <Style TargetType="Image" x:Key="Icon_Screen" BasedOn="{StaticResource Icon_Base}">
         <Setter Property="Source" Value="../Images/Icons/screen.png" />
     </Style>
+    <Style TargetType="Image" x:Key="Icon_Furniture" BasedOn="{StaticResource Icon_Base}">
+        <Setter Property="Source" Value="../Images/Icons/furniture.png" />
+    </Style>
+    <Style TargetType="Image" x:Key="Icon_Media" BasedOn="{StaticResource Icon_Base}">
+        <Setter Property="Source" Value="../Images/Icons/mediadisc.png" />
+    </Style>
+    <Style TargetType="Image" x:Key="Icon_Wrench" BasedOn="{StaticResource Icon_Base}">
+        <Setter Property="Source" Value="../Images/Icons/wrench.png" />
+    </Style>
 
 </ResourceDictionary>

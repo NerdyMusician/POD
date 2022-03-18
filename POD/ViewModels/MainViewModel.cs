@@ -24,8 +24,11 @@ namespace POD.ViewModels
                 "Electronic",
                 "Figurine",
                 "Firearm",
+                "Furniture",
                 "Jewelry",
+                "Media",
                 "Other",
+                "Tool",
             };
             
         }

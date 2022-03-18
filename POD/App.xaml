@@ -20,6 +20,7 @@
                 <ResourceDictionary Source="Styles/Controls/TabItem.xaml" />
                 <ResourceDictionary Source="Styles/Controls/ComboBox.xaml" />
                 <ResourceDictionary Source="Styles/Controls/ContextMenu.xaml" />
+                <ResourceDictionary Source="Styles/Controls/Checkbox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

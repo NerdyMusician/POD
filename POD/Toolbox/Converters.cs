@@ -159,7 +159,10 @@ namespace POD.Toolbox
                 "Electronic" => "Icon_Screen",
                 "Figurine" => "Icon_Archer",
                 "Firearm" => "Icon_Bullet",
+                "Furniture" => "Icon_Furniture",
                 "Jewelry" => "Icon_Ring",
+                "Media" => "Icon_Media",
+                "Tool" => "Icon_Wrench",
                 _ => "Icon_Cube"
             };
             return Configuration.AppFramework.FindResource(iconName) as Style;
