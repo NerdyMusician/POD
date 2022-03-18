@@ -11,5 +11,9 @@ namespace POD.Toolbox
             if (notifyUser) { new NotificationDialog(message).ShowDialog(); }
             File.AppendAllText("log.txt", DateTime.Now + ": " + message + "\n");
         }
+        public static void NotifyUser(string message)
+        {
+            new NotificationDialog(message).ShowDialog();
+        }
     }
 }

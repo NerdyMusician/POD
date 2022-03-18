@@ -26,11 +26,12 @@ namespace POD.Toolbox
                     {
                         if (attr.AttributeType.Name == "XmlSaveMode")
                         {
-                            if (attr.ConstructorArguments[0].Value.ToString() == "Single")
+                            if (attr.ConstructorArguments[0].Value.ToString() == "0")
                             {
+                                if (propertyInfo.GetValue(item, null) == null || string.IsNullOrEmpty(propertyInfo.GetValue(item, null).ToString())) { continue; } // don't write blanks to data
                                 items.Last().Add(new XAttribute(propertyInfo.Name, (propertyInfo.GetValue(item, null) != null) ? propertyInfo.GetValue(item, null).ToString() : ""));
                             }
-                            if (attr.ConstructorArguments[0].Value.ToString() == "Enumerable")
+                            if (attr.ConstructorArguments[0].Value.ToString() == "1")
                             {
                                 items.Last().Add(ListToXml(propertyInfo.GetValue(item, null) as IEnumerable, propertyInfo.Name));
                             }

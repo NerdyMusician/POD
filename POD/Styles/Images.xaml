@@ -62,5 +62,8 @@
     <Style TargetType="Image" x:Key="Icon_Ring" BasedOn="{StaticResource Icon_Base}">
         <Setter Property="Source" Value="../Images/Icons/ring.png" />
     </Style>
+    <Style TargetType="Image" x:Key="Icon_Screen" BasedOn="{StaticResource Icon_Base}">
+        <Setter Property="Source" Value="../Images/Icons/screen.png" />
+    </Style>
 
 </ResourceDictionary>

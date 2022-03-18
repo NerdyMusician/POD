@@ -156,6 +156,7 @@ namespace POD.Toolbox
             string iconName = value switch
             {
                 "Book" => "Icon_Book",
+                "Electronic" => "Icon_Screen",
                 "Figurine" => "Icon_Archer",
                 "Firearm" => "Icon_Bullet",
                 "Jewelry" => "Icon_Ring",

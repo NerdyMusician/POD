@@ -12,8 +12,8 @@
         BorderBrush="{StaticResource WindowBorder}"
         BorderThickness="2" ResizeMode="CanResizeWithGrip"
         Title="MainWindow" 
-        MinHeight="520"  Height="520"
-        MinWidth="960" Width="960"
+        MinHeight="620"  Height="620"
+        MinWidth="860" Width="860"
         SizeChanged="Window_SizeChanged">
     <Window.Resources>
         <Style TargetType="TextBlock" BasedOn="{StaticResource StandardTextBlock}" />
@@ -71,7 +71,7 @@
                 </DockPanel>
                 <ListView x:Name="CTRL_PersonalObjectList" 
                           Style="{StaticResource LTV_BorderedListView}"
-                          Width="248" MinHeight="440"
+                          Width="248" MinHeight="540"
                           ItemsSource="{Binding AllCards}"
                           SelectedItem="{Binding ActiveCard}">
                     <ListView.ItemTemplate>
@@ -93,144 +93,111 @@
             </StackPanel>
             <Separator />
             <StackPanel Visibility="{Binding ActiveCard, Converter={tool:CollapsedIfNull}}" Margin="0 28 0 0">
-                <StackPanel Orientation="Horizontal">
-                    <Image Style="{Binding ActiveCard.CardType, Converter={tool:ImageBasedOnCardType}}" Height="32" />
-                    <Separator />
-                    <TextBlock Style="{StaticResource TBK_ActiveCardHeader}">
-                        <Run Text="{Binding ActiveCard.Brand}" />
-                        <Run Text="{Binding ActiveCard.Name}" />
-                        <TextBlock Visibility="{Binding ActiveCard.Series, Converter={tool:CollapsedIfNullOrEmpty}}">
-                            <Run Text="(" /><Run Text="{Binding ActiveCard.Series}" /><Run Text=")" />
-                        </TextBlock>
-                    </TextBlock>
-                </StackPanel>
-                <TabControl Style="{StaticResource TBC_Default}" BorderThickness="0 2 0 0" MinWidth="700">
-                    <TabControl.Resources>
-                        <Style TargetType="TabItem" BasedOn="{StaticResource TBI_Top}">
-                            <Setter Property="Width" Value="280" />
-                        </Style>
-                    </TabControl.Resources>
-                    <TabItem Header="Information">
-                        <ScrollViewer x:Name="CTRL_ItemInfoScrollViewer"
+                <ScrollViewer x:Name="CTRL_ItemInfoScrollViewer"
                                       HorizontalAlignment="Left"
                                       Margin="8 4"
-                                      Width="420"
-                                      Height="370">
-                            <StackPanel Margin="8 4">
-                                <StackPanel Style="{StaticResource SPL_FieldRow}">
-                                    <TextBlock Text="Name" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.Name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}">
-                                    <TextBlock Text="Type" Style="{StaticResource TBK_FieldLabel}" />
-                                    <ComboBox Text="{Binding ActiveCard.CardType}" ItemsSource="{Binding CardTypes}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}">
-                                    <TextBlock Text="Description" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.Description, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_MultiLineField}" Height="192" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_Series, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
-                                    <TextBlock Text="Series / Source" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.Series, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_Brand, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
-                                    <TextBlock Text="Brand" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.Brand, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_SerialNumber, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
-                                    <TextBlock Text="Serial Number" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.SerialNumber, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_Author, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
-                                    <TextBlock Text="Author" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.Author, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_Publisher, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
-                                    <TextBlock Text="Publisher" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.Publisher, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_ISBN, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
-                                    <TextBlock Text="ISBN" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.ISBN, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}">
-                                    <TextBlock Text="Purchase Location" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.PurchaseLocation, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}">
-                                    <TextBlock Text="Purchase Date" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.PurchaseDate, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}">
-                                    <TextBlock Text="Hyperlink" Style="{StaticResource TBK_FieldLabel}" />
-                                    <cc:MiniButton ImageResource="{StaticResource Icon_Link}" Command="{Binding ActiveCard.OpenLink}" />
-                                    <TextBox Text="{Binding ActiveCard.Hyperlink, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" Width="216" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}">
-                                    <TextBlock Text="Purchase Price" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.PurchasePrice, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" Width="72" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}">
-                                    <TextBlock Text="Current Price" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.CurrentPrice, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" Width="72" />
-                                </StackPanel>
-                                
-                            </StackPanel>
-                        </ScrollViewer>
-                    </TabItem>
-                    <TabItem Header="Images">
-                        <StackPanel Orientation="Horizontal" Margin="8 4">
-                            <StackPanel>
-                                <DockPanel>
-                                    <TextBlock Text="Images" Style="{StaticResource TBK_ItemsControlHeader}" />
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <cc:IconButton ImageResource="{StaticResource Icon_Plus}" Command="{Binding ActiveCard.AddImage}" />
-                                        <cc:IconButton ImageResource="{StaticResource Icon_Sort}" Command="{Binding ActiveCard.SortImages}" />
-                                    </StackPanel>
-                                </DockPanel>
-                                <ListView x:Name="CTRL_ItemImageList" 
-                                          Style="{StaticResource LTV_BorderedListView}"
-                                          Width="216" MinHeight="340"
-                                          ItemsSource="{Binding ActiveCard.ItemImages}"
-                                          SelectedItem="{Binding ActiveCard.ActiveImage}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Name}" Style="{StaticResource StandardTextBlock}">
-                                                    <TextBlock.ContextMenu>
-                                                        <ContextMenu>
-                                                            <MenuItem Header="Delete Image" Command="{Binding RemoveImage}" />
-                                                        </ContextMenu>
-                                                    </TextBlock.ContextMenu>
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                            </StackPanel>
-                            <Separator />
-                            <StackPanel Margin="0 26 0 0" Visibility="{Binding ActiveCard.ActiveImage, Converter={tool:CollapsedIfNull}}">
-                                <StackPanel Style="{StaticResource SPL_FieldRow}">
-                                    <TextBlock Text="Name" Style="{StaticResource TBK_FieldLabel}" />
-                                    <TextBox Text="{Binding ActiveCard.ActiveImage.Name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
-                                </StackPanel>
-                                <StackPanel Style="{StaticResource SPL_FieldRow}">
-                                    <TextBlock Text="File" Style="{StaticResource TBK_FieldLabel}" />
-                                    <cc:MiniButton ImageResource="{StaticResource Icon_Folder}" Command="{Binding ActiveCard.ActiveImage.SelectImage}" />
-                                    <Separator />
-                                    <TextBlock Text="{Binding ActiveCard.ActiveImage.FileName}" Style="{StaticResource StandardTextBlock}" VerticalAlignment="Center" />
-                                </StackPanel>
-                                <Image x:Name="CTRL_ActiveImageDisplay" Source="{Binding ActiveCard.ActiveImage.FullFilePath}" MaxHeight="280" MaxWidth="340" HorizontalAlignment="Left" Margin="120 4 0 0">
-                                    <Image.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Open Image in Default Viewer" Command="{Binding ActiveCard.ActiveImage.OpenImage}" />
-                                        </ContextMenu>
-                                    </Image.ContextMenu>
-                                </Image>
-                            </StackPanel>
+                                      Width="560"
+                                      Height="520">
+                    <StackPanel Margin="8 4">
+                        <StackPanel Style="{StaticResource SPL_FieldRow}">
+                            <TextBlock Text="Name" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.Name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
                         </StackPanel>
-                    </TabItem>
-                </TabControl>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}">
+                            <TextBlock Text="Type" Style="{StaticResource TBK_FieldLabel}" />
+                            <ComboBox Text="{Binding ActiveCard.CardType}" Foreground="White" ItemsSource="{Binding CardTypes}" IsEditable="False" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}">
+                            <TextBlock Text="Description" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.Description, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_MultiLineField}" Height="128" Width="380" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_Series, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
+                            <TextBlock Text="Series / Source" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.Series, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_Brand, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
+                            <TextBlock Text="Brand" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.Brand, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_SerialNumber, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
+                            <TextBlock Text="Serial Number" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.SerialNumber, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_Author, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
+                            <TextBlock Text="Author" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.Author, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_Publisher, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
+                            <TextBlock Text="Publisher" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.Publisher, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_ISBN, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
+                            <TextBlock Text="ISBN" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.ISBN, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}">
+                            <TextBlock Text="Purchase Location" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.PurchaseLocation, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}">
+                            <TextBlock Text="Purchase Date" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.PurchaseDate, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}">
+                            <TextBlock Text="Purchase Price" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.PurchasePrice, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" Width="72" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}">
+                            <TextBlock Text="Current Price" Style="{StaticResource TBK_FieldLabel}" />
+                            <TextBox Text="{Binding ActiveCard.CurrentPrice, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" Width="72" />
+                        </StackPanel>
+                        <DockPanel Width="360" HorizontalAlignment="Left">
+                            <TextBlock Text="Links" Style="{StaticResource TBK_FieldLabel}" />
+                            <cc:MiniButton ImageResource="{StaticResource Icon_Plus}" HorizontalAlignment="Right" Command="{Binding ActiveCard.AddLink}" />
+                        </DockPanel>
+                        <Rectangle />
+                        <ItemsControl ItemsSource="{Binding ActiveCard.Links}" HorizontalAlignment="Left">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Style="{StaticResource SPL_FieldRow}" HorizontalAlignment="Right">
+                                        <cc:MiniButton ImageResource="{StaticResource Icon_Link}" Command="{Binding OpenUrl}" />
+                                        <Separator />
+                                        <TextBox Text="{Binding Url, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                                        <Separator />
+                                        <cc:MiniButton ImageResource="{StaticResource Icon_X}" Command="{Binding RemoveLink}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Separator Height="8" />
+                        <DockPanel Width="360" HorizontalAlignment="Left">
+                            <TextBlock Text="Images" Style="{StaticResource TBK_FieldLabel}" />
+                            <cc:MiniButton ImageResource="{StaticResource Icon_Plus}" HorizontalAlignment="Right" Command="{Binding ActiveCard.AddImage}" />
+                        </DockPanel>
+                        <Rectangle />
+                        <ItemsControl ItemsSource="{Binding ActiveCard.ItemImages}" HorizontalAlignment="Left">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel></WrapPanel>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Height="128" Width="128" BorderBrush="DarkSlateGray" Background="#222222" Margin="2">
+                                        <Image Source="{Binding FullFilePath}" Margin="2" MouseLeftButtonUp="Image_MouseUp">
+                                            <Image.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Delete Image" Command="{Binding RemoveImage}" />
+                                                </ContextMenu>
+                                            </Image.ContextMenu>
+                                        </Image>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Separator Height="8" />
+                    </StackPanel>
+                </ScrollViewer>
             </StackPanel>
         </StackPanel>
     </StackPanel>

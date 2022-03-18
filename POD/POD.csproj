@@ -59,6 +59,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\ItemImage.cs" />
+    <Compile Include="Models\WebLink.cs" />
     <Compile Include="Toolbox\RelayCommand.cs" />
     <Compile Include="Windows\NotificationDialog.xaml.cs">
       <DependentUpon>NotificationDialog.xaml</DependentUpon>
@@ -244,9 +245,7 @@
     <Resource Include="Images\Icons\ring.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Change.log">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Resource Include="Images\Icons\screen.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

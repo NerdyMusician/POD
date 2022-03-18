@@ -1,6 +1,8 @@
-﻿using POD.Toolbox;
+﻿using Microsoft.Win32;
+using POD.Toolbox;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 
@@ -17,13 +19,13 @@ namespace POD.Models
             PurchaseDate = "2021.01.01";
             PurchasePrice = "0";
             CurrentPrice = "0";
-
+            Links = new();
         }
 
         // Databound Properties - Primary Values
         #region Name
         private string _Name;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string Name
         {
             get
@@ -39,7 +41,7 @@ namespace POD.Models
         #endregion
         #region CardType
         private string _CardType;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string CardType
         {
             get
@@ -56,7 +58,7 @@ namespace POD.Models
         #endregion
         #region Description
         private string _Description;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string Description
         {
             get
@@ -73,7 +75,7 @@ namespace POD.Models
         #endregion
         #region ItemImages
         private ObservableCollection<ItemImage> _ItemImages;
-        [XmlSaveMode("Enumerable")]
+        [XmlSaveMode(XSME.Enumerable)]
         public ObservableCollection<ItemImage> ItemImages
         {
             get
@@ -106,7 +108,7 @@ namespace POD.Models
         // Databound Properties - Form Fields
         #region Series
         private string _Series;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string Series
         {
             get
@@ -122,7 +124,7 @@ namespace POD.Models
         #endregion
         #region PurchaseLocation
         private string _PurchaseLocation;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string PurchaseLocation
         {
             get
@@ -138,7 +140,7 @@ namespace POD.Models
         #endregion
         #region PurchaseDate
         private string _PurchaseDate;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string PurchaseDate
         {
             get
@@ -154,7 +156,7 @@ namespace POD.Models
         #endregion
         #region PurchasePrice
         private string _PurchasePrice;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string PurchasePrice
         {
             get
@@ -170,7 +172,7 @@ namespace POD.Models
         #endregion
         #region CurrentPrice
         private string _CurrentPrice;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string CurrentPrice
         {
             get
@@ -184,26 +186,18 @@ namespace POD.Models
             }
         }
         #endregion
-        #region Hyperlink
-        private string _Hyperlink;
-        [XmlSaveMode("Single")]
-        public string Hyperlink
+
+        private ObservableCollection<WebLink> _Links;
+        [XmlSaveMode(XSME.Enumerable)]
+        public ObservableCollection<WebLink> Links
         {
-            get
-            {
-                return _Hyperlink;
-            }
-            set
-            {
-                _Hyperlink = value;
-                NotifyPropertyChanged();
-            }
+            get => _Links;
+            set => SetAndNotify(ref _Links, value);
         }
-        #endregion
 
         #region Brand
         private string _Brand;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string Brand
         {
             get
@@ -220,7 +214,7 @@ namespace POD.Models
 
         #region Author
         private string _Author;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string Author
         {
             get
@@ -236,7 +230,7 @@ namespace POD.Models
         #endregion
         #region Publisher
         private string _Publisher;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string Publisher
         {
             get
@@ -252,7 +246,7 @@ namespace POD.Models
         #endregion
         #region ISBN
         private string _ISBN;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string ISBN
         {
             get
@@ -269,7 +263,7 @@ namespace POD.Models
 
         #region SerialNumber
         private string _SerialNumber;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string SerialNumber
         {
             get
@@ -364,7 +358,7 @@ namespace POD.Models
 
         #region Display_SerialNumber
         private bool _Display_SerialNumber;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public bool Display_SerialNumber
         {
             get
@@ -384,8 +378,23 @@ namespace POD.Models
         public ICommand AddImage => new RelayCommand(DoAddImage);
         private void DoAddImage(object param)
         {
-            ItemImages.Add(new ItemImage());
-            ActiveImage = ItemImages.Last();
+            OpenFileDialog openWindow = new OpenFileDialog
+            {
+                Filter = Configuration.ImageFileFilter,
+                Multiselect = true
+            };
+            if (openWindow.ShowDialog() == true)
+            {
+                foreach (string file in openWindow.FileNames)
+                {
+                    string imageDirectory = Environment.CurrentDirectory + "/Data/Images/";
+                    int imageCount = Directory.GetFiles(imageDirectory).Count();
+                    string fileExtension = Path.GetExtension(file);
+                    string newFile = $"{imageDirectory}{imageCount}{fileExtension}";
+                    File.Copy(file, newFile, true);
+                    ItemImages.Add(new(newFile));
+                }
+            }
         }
         #endregion
         #region SortImages
@@ -402,20 +411,11 @@ namespace POD.Models
             Configuration.MainModelRef.AllCards.Remove(this);
         }
         #endregion
-        #region OpenLink
-        public ICommand OpenLink => new RelayCommand(DoOpenLink);
-        private void DoOpenLink(object param)
+        public ICommand AddLink => new RelayCommand(DoAddLink);
+        private void DoAddLink(object param)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Hyperlink);
-            }
-            catch (Exception e)
-            {
-                HelperMethods.WriteToLogFile(e.Message, true);
-            }
+            Links.Add(new());
         }
-        #endregion
 
         // Private Methods
         private void UpdateFormDisplays()
@@ -435,6 +435,10 @@ namespace POD.Models
                     Display_Author = true;
                     Display_Publisher = true;
                     Display_ISBN = true;
+                    break;
+                case "Electronic":
+                    Display_Brand = true;
+                    Display_SerialNumber = true;
                     break;
                 case "Figurine":
                     Display_Brand = true;

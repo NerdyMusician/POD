@@ -21,6 +21,7 @@ namespace POD.ViewModels
             CardTypes = new()
             {
                 "Book",
+                "Electronic",
                 "Figurine",
                 "Firearm",
                 "Jewelry",

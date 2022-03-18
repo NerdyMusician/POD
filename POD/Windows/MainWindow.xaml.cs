@@ -1,5 +1,11 @@
-﻿using POD.ViewModels;
+﻿using POD.Models;
+using POD.Toolbox;
+using POD.ViewModels;
+using POD.Windows;
+using System;
+using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace POD
@@ -9,7 +15,12 @@ namespace POD
         public MainWindow()
         {
             InitializeComponent();
+
+            Directory.CreateDirectory(Environment.CurrentDirectory + "/Data");
+            Directory.CreateDirectory(Environment.CurrentDirectory + "/Data/Images");
+
             DataContext = new MainViewModel();
+
         }
 
         // Private Methods
@@ -43,10 +54,27 @@ namespace POD
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             CTRL_PersonalObjectList.Height = this.ActualHeight - 76;
-            CTRL_ItemInfoScrollViewer.Height = this.ActualHeight - 160;
-            CTRL_ItemImageList.Height = this.ActualHeight - 210;
-            CTRL_ActiveImageDisplay.MaxHeight = this.ActualHeight - 300;
-            CTRL_ActiveImageDisplay.MaxWidth = this.ActualWidth - 632;
+            CTRL_ItemInfoScrollViewer.Height = this.ActualHeight - 86;
+            //CTRL_ItemImageList.Height = this.ActualHeight - 210;
+            //CTRL_ActiveImageDisplay.MaxHeight = this.ActualHeight - 300;
+            //CTRL_ActiveImageDisplay.MaxWidth = this.ActualWidth - 632;
+        }
+
+        private void Image_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(((sender as Image).DataContext as ItemImage).FullFilePath);
+            }
+            catch (Exception ex)
+            {
+                YesNoDialog question = new YesNoDialog(ex.Message + "\nUnlink?");
+                question.ShowDialog();
+                if (question.Answer == true)
+                {
+                    Configuration.MainModelRef.ActiveCard.ItemImages.Remove(((sender as Image).DataContext as ItemImage));
+                }
+            }
         }
     }
 }

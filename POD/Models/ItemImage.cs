@@ -14,11 +14,15 @@ namespace POD.Models
         {
             Name = "New Image";
         }
+        public ItemImage(string path)
+        {
+            FullFilePath = path;
+        }
 
         // Databound Properties
         #region Name
         private string _Name;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string Name
         {
             get
@@ -34,7 +38,7 @@ namespace POD.Models
         #endregion
         #region FilePath
         private string _FileName;
-        [XmlSaveMode("Single")]
+        [XmlSaveMode(XSME.Single)]
         public string FileName
         {
             get
