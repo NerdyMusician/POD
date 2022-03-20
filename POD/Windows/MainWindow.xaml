@@ -200,13 +200,13 @@
                             <cc:MiniButton ImageResource="{StaticResource Icon_Plus}" HorizontalAlignment="Right" Command="{Binding ActiveCard.AddLink}" />
                         </DockPanel>
                         <Rectangle />
-                        <ItemsControl ItemsSource="{Binding ActiveCard.Links}" HorizontalAlignment="Left">
+                        <ItemsControl ItemsSource="{Binding ActiveCard.Links}" HorizontalAlignment="Left" Margin="2">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Style="{StaticResource SPL_FieldRow}" HorizontalAlignment="Right">
+                                    <StackPanel Style="{StaticResource SPL_FieldRow}" HorizontalAlignment="Right" Margin="2">
                                         <cc:MiniButton ImageResource="{StaticResource Icon_Link}" Command="{Binding OpenUrl}" />
                                         <Separator />
-                                        <TextBox Text="{Binding Url, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                                        <TextBox Text="{Binding Url, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" Width="280" />
                                         <Separator />
                                         <cc:MiniButton ImageResource="{StaticResource Icon_X}" Command="{Binding RemoveLink}" />
                                     </StackPanel>
