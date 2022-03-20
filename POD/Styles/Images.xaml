@@ -39,6 +39,18 @@
     <Style TargetType="Image" x:Key="Icon_Folder" BasedOn="{StaticResource Icon_Base}">
         <Setter Property="Source" Value="../Images/Icons/dm_folder.png" />
     </Style>
+    <Style TargetType="Image" x:Key="Icon_Search" BasedOn="{StaticResource Icon_Base}">
+        <Setter Property="Source" Value="../Images/Icons/magnifying_glass.png" />
+    </Style>
+    <Style TargetType="Image" x:Key="Icon_Filter" BasedOn="{StaticResource Icon_Base}">
+        <Setter Property="Source" Value="../Images/Icons/filter.png" />
+    </Style>
+    <Style TargetType="Image" x:Key="Icon_Checked" BasedOn="{StaticResource Icon_Base}">
+        <Setter Property="Source" Value="../Images/Icons/bluecheck.png" />
+    </Style>
+    <Style TargetType="Image" x:Key="Icon_Unchecked" BasedOn="{StaticResource Icon_Base}">
+        <Setter Property="Source" Value="../Images/Icons/uncheck.png" />
+    </Style>
     
     <!-- Other Icons -->
     <Style TargetType="Image" x:Key="Icon_Cube" BasedOn="{StaticResource Icon_Base}">

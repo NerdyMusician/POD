@@ -1,8 +1,10 @@
 ﻿using POD.Models;
 using POD.Toolbox;
 using POD.Windows;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using System.Xml.Linq;
@@ -18,6 +20,7 @@ namespace POD.ViewModels
             ApplicationVersion = "POD 1.00.00 beta";
             XmlMethods.XmlToList(Configuration.ItemDataFilePath, out List<ItemCard> items);
             AllCards = new ObservableCollection<ItemCard>(items);
+            AllCards.CollectionChanged += AllCards_CollectionChanged;
             CardTypes = new()
             {
                 "Book",
@@ -30,8 +33,11 @@ namespace POD.ViewModels
                 "Other",
                 "Tool",
             };
-            
+            SetSearchFilters();
+            ItemSearchText = "";
         }
+
+        
 
         // Databound Properties
         #region ApplicationVersion
@@ -65,6 +71,14 @@ namespace POD.ViewModels
             }
         }
         #endregion
+        #region FilteredCards
+        private ObservableCollection<ItemCard> _FilteredCards;
+        public ObservableCollection<ItemCard> FilteredCards
+        {
+            get => _FilteredCards;
+            set => SetAndNotify(ref _FilteredCards, value);
+        }
+        #endregion
         #region ActiveCard
         private ItemCard _ActiveCard;
         public ItemCard ActiveCard
@@ -96,13 +110,52 @@ namespace POD.ViewModels
         }
         #endregion
 
+        #region IsFilterMenuOpen
+        private bool _IsFilterMenuOpen;
+        public bool IsFilterMenuOpen
+        {
+            get => _IsFilterMenuOpen;
+            set => SetAndNotify(ref _IsFilterMenuOpen, value);
+        }
+        #endregion
+        #region ItemTypeFilters
+        private ObservableCollection<BoolOption> _ItemTypeFilters;
+        public ObservableCollection<BoolOption> ItemTypeFilters
+        {
+            get => _ItemTypeFilters;
+            set => SetAndNotify(ref _ItemTypeFilters, value);
+        }
+        #endregion
+        #region ItemSearchText
+        private string _ItemSearchText;
+        public string ItemSearchText
+        {
+            get => _ItemSearchText;
+            set
+            {
+                _ItemSearchText = value;
+                NotifyPropertyChanged();
+                UpdateFilteredItemList();
+            }
+        }
+        #endregion
+        #region CardShowCount
+        private string _CardShowCount;
+        public string CardShowCount
+        {
+            get => _CardShowCount;
+            set => SetAndNotify(ref _CardShowCount, value);
+        }
+        #endregion
+
         // Commands
         #region AddItemCard
         public ICommand AddItemCard => new RelayCommand(DoAddItemCard);
         private void DoAddItemCard(object param)
         {
-            AllCards.Add(new ItemCard());
-            ActiveCard = AllCards.Last();
+            ItemCard newItem = new();
+            AllCards.Add(newItem);
+            ActiveCard = newItem;
         }
         #endregion
         #region SortCards
@@ -257,6 +310,31 @@ namespace POD.ViewModels
             }
         }
         #endregion
+        #region ChangeFilters
+        public ICommand ChangeFilters => new RelayCommand(DoChangeFilters);
+        private void DoChangeFilters(object param)
+        {
+            if (param == null) { return; }
+            List<string> options = param.ToString().Split(',').ToList();
+            if (options.Contains("ITEMTYPE"))
+            {
+                if (options.Contains("SELECTALL"))
+                {
+                    foreach (BoolOption filter in ItemTypeFilters)
+                    {
+                        filter.IsMarked = true;
+                    }
+                }
+                if (options.Contains("UNSELECTALL"))
+                {
+                    foreach (BoolOption filter in ItemTypeFilters)
+                    {
+                        filter.IsMarked = false;
+                    }
+                }
+            }
+        }
+        #endregion
 
         // Private Methods
         private string GetMessageSegmentFromMissingData(List<string> missingItems, string dataField)
@@ -269,6 +347,37 @@ namespace POD.ViewModels
             }
             return message;
         }
+        private void SetSearchFilters()
+        {
+            ItemTypeFilters = new();
+            foreach (string type in CardTypes)
+            {
+                ItemTypeFilters.Add(new(type, true));
+                ItemTypeFilters.Last().PropertyChanged += new PropertyChangedEventHandler(ItemTypeFilter_PropertyChanged);
+            }
+        }
+        private void ItemTypeFilter_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateFilteredItemList();
+        }
+        private void AllCards_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            UpdateFilteredItemList();
+        }
+        private void UpdateFilteredItemList()
+        {
+            ObservableCollection<ItemCard> filteredCards = new();
+            foreach (ItemCard item in AllCards)
+            {
+                if (item.Name.ToUpper().Contains(ItemSearchText.ToUpper()) == false) { continue; }
+                BoolOption filter = ItemTypeFilters.FirstOrDefault(filter => filter.Name == item.CardType);
+                if (filter == null) { continue; }
+                if (filter.IsMarked) { filteredCards.Add(item); }
+            }
+            FilteredCards = new(filteredCards.OrderBy(c => c.Name));
 
+            CardShowCount = $"Showing {FilteredCards.Count} of {AllCards.Count}";
+
+        }
     }
 }

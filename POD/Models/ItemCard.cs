@@ -260,6 +260,13 @@ namespace POD.Models
             }
         }
         #endregion
+        private bool _SignedByAuthor;
+        [XmlSaveMode(XSME.Single)]
+        public bool SignedByAuthor
+        {
+            get => _SignedByAuthor;
+            set => SetAndNotify(ref _SignedByAuthor, value);
+        }
 
         #region SerialNumber
         private string _SerialNumber;
@@ -363,6 +370,12 @@ namespace POD.Models
             }
         }
         #endregion
+        private bool _Display_SignedByAuthor;
+        public bool Display_SignedByAuthor
+        {
+            get => _Display_SignedByAuthor;
+            set => SetAndNotify(ref _Display_SignedByAuthor, value);
+        }
 
         #region Display_SerialNumber
         private bool _Display_SerialNumber;

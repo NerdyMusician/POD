@@ -29,6 +29,7 @@ namespace POD.Toolbox
                             if (attr.ConstructorArguments[0].Value.ToString() == "0")
                             {
                                 if (propertyInfo.GetValue(item, null) == null || string.IsNullOrEmpty(propertyInfo.GetValue(item, null).ToString())) { continue; } // don't write blanks to data
+                                if (propertyInfo.GetType() == typeof(bool)) { if (propertyInfo.GetValue(item, null).ToString() == "false") { continue; } } // don't write falses (bool default)
                                 items.Last().Add(new XAttribute(propertyInfo.Name, (propertyInfo.GetValue(item, null) != null) ? propertyInfo.GetValue(item, null).ToString() : ""));
                             }
                             if (attr.ConstructorArguments[0].Value.ToString() == "1")

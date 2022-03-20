@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\BoolOption.cs" />
     <Compile Include="Models\ItemImage.cs" />
     <Compile Include="Models\WebLink.cs" />
     <Compile Include="Toolbox\RelayCommand.cs" />
@@ -259,6 +260,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icons\furniture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\magnifying_glass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\filter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\bluecheck.png" />
+    <Resource Include="Images\Icons\uncheck.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -53,7 +53,7 @@ namespace POD
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            CTRL_PersonalObjectList.Height = this.ActualHeight - 76;
+            CTRL_PersonalObjectList.Height = this.ActualHeight - 128;
             CTRL_ItemInfoScrollViewer.Height = this.ActualHeight - 86;
             //CTRL_ItemImageList.Height = this.ActualHeight - 210;
             //CTRL_ActiveImageDisplay.MaxHeight = this.ActualHeight - 300;

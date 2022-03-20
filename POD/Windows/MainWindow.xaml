@@ -24,6 +24,8 @@
             <Setter Property="Width" Value="240" />
         </Style>
         <Style TargetType="ContextMenu" BasedOn="{StaticResource CXM_Themed}" />
+        <Style TargetType="cc:ImageButton" BasedOn="{StaticResource ImageButton}" />
+        <Style TargetType="CheckBox" BasedOn="{StaticResource BaseCheckBox}" />
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="F1" Command="{Binding ProcessKeyboardShortcut}" CommandParameter="F1" />
@@ -69,10 +71,44 @@
                         <cc:IconButton ImageResource="{StaticResource Icon_Note}" Command="{Binding CreateReport}" ToolTip="View item list report" />
                     </StackPanel>
                 </DockPanel>
+                <DockPanel>
+                    <Image Style="{StaticResource Icon_Search}" />
+                    <Separator />
+                    <TextBox Text="{Binding ItemSearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" Width="200" />
+                    <StackPanel HorizontalAlignment="Right">
+                        <cc:MiniToggleButton ImageResource="{StaticResource Icon_Filter}" IsChecked="{Binding IsFilterMenuOpen}" />
+                        <Popup IsOpen="{Binding IsFilterMenuOpen}">
+                            <Border>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <cc:ImageButton ImageResource="{StaticResource Icon_Checked}" Text="Select All" Width="94" Command="{Binding ChangeFilters}" CommandParameter="ITEMTYPE,SELECTALL" />
+                                        <cc:ImageButton ImageResource="{StaticResource Icon_Unchecked}" Text="Unselect All" Width="94" Command="{Binding ChangeFilters}" CommandParameter="ITEMTYPE,UNSELECTALL" />
+                                    </StackPanel>
+                                    <ItemsControl ItemsSource="{Binding ItemTypeFilters}" Margin="2">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="2">
+                                                    <CheckBox IsChecked="{Binding IsMarked}" />
+                                                    <Separator />
+                                                    <TextBlock Text="{Binding Name}" Foreground="White" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+                    </StackPanel>
+                </DockPanel>
+                <DockPanel Margin="0 2 0 0">
+                    <Separator Width="20" />
+                    <TextBlock Text="{Binding CardShowCount, FallbackValue=Showing 50 of 200}" />
+                </DockPanel>
+                <Separator Height="0" />
                 <ListView x:Name="CTRL_PersonalObjectList" 
                           Style="{StaticResource LTV_BorderedListView}"
-                          Width="248" MinHeight="540"
-                          ItemsSource="{Binding AllCards}"
+                          Width="248" MinHeight="500"
+                          ItemsSource="{Binding FilteredCards}"
                           SelectedItem="{Binding ActiveCard}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -134,6 +170,10 @@
                         <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_ISBN, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
                             <TextBlock Text="ISBN" Style="{StaticResource TBK_FieldLabel}" />
                             <TextBox Text="{Binding ActiveCard.ISBN, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TBX_SingleLineField}" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_SignedByAuthor, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
+                            <TextBlock Text="Signed by Author" Style="{StaticResource TBK_FieldLabel}" />
+                            <CheckBox IsChecked="{Binding ActiveCard.SignedByAuthor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BaseCheckBox}" />
                         </StackPanel>
                         <StackPanel Style="{StaticResource SPL_FieldRow}" Visibility="{Binding ActiveCard.Display_HasCase, Converter={tool:CollapsedIfFalseOtherwiseVisible}}">
                             <TextBlock Text="Has Case" Style="{StaticResource TBK_FieldLabel}" />
