@@ -439,13 +439,6 @@ namespace POD.Models
             }
         }
         #endregion
-        #region SortImages
-        public ICommand SortImages => new RelayCommand(DoSortImages);
-        private void DoSortImages(object param)
-        {
-            ItemImages = new(ItemImages.OrderBy(i => i.Name));
-        }
-        #endregion
         #region RemoveCard
         public ICommand RemoveCard => new RelayCommand(DoRemoveCard);
         private void DoRemoveCard(object param)

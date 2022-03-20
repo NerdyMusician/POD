@@ -10,6 +10,10 @@ namespace POD.Models
     public class ItemImage : BaseModel
     {
         // Constructors
+        public ItemImage()
+        {
+
+        }
         public ItemImage(string path)
         {
             FullFilePath = path;
