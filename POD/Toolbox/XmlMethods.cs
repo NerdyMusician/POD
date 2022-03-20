@@ -62,6 +62,14 @@ namespace POD.Toolbox
                         newItem.ItemImages.Add(obj);
                     }
                 }
+                if (childNode.Attributes.GetNamedItem("Name").InnerText == "Links")
+                {
+                    foreach (XmlNode subNode in childNode.ChildNodes)
+                    {
+                        NodeToObject(subNode, out WebLink obj);
+                        newItem.Links.Add(obj);
+                    }
+                }
             }
 
             item = newItem;
@@ -73,6 +81,10 @@ namespace POD.Toolbox
 
             item = newItem;
 
+        }
+        public static void NodeToObject(XmlNode linkNode, out WebLink link)
+        {
+            link = SetObjectPropertiesFromNode(linkNode, new WebLink()) as WebLink;
         }
 
         // Public Methods - POD Specific - XML to List

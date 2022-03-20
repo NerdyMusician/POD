@@ -163,6 +163,7 @@ namespace POD.ViewModels
         private void DoSortItemCards(object param)
         {
             AllCards = new(AllCards.OrderBy(c => c.Name));
+            UpdateFilteredItemList();
         }
         #endregion
         #region SaveCards
