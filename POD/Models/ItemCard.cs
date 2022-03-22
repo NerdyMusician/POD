@@ -434,7 +434,7 @@ namespace POD.Models
                         HelperMethods.NotifyUser(e.Message);
                         continue;
                     }
-                    ItemImages.Add(new(newFile));
+                    ItemImages.Add(new($"{uid}{fileExtension}"));
                 }
             }
         }

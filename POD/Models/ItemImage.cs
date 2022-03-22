@@ -1,8 +1,5 @@
-﻿using Microsoft.Win32;
-using POD.Toolbox;
-using POD.Windows;
+﻿using POD.Toolbox;
 using System;
-using System.IO;
 using System.Windows.Input;
 
 namespace POD.Models
@@ -14,28 +11,34 @@ namespace POD.Models
         {
 
         }
-        public ItemImage(string path)
+        public ItemImage(string name)
         {
-            FullFilePath = path;
+            FileName = name;
         }
 
         // Databound Properties
-        #region FullFilePath
-        private string _FullFilePath;
+        private string _FileName;
         [XmlSaveMode(XSME.Single)]
-        public string FullFilePath
+        public string FileName
         {
-            get
-            {
-                return _FullFilePath;
-            }
+            get => _FileName;
             set
             {
-                _FullFilePath = value;
+                _FileName = value;
                 NotifyPropertyChanged();
+                if (!string.IsNullOrEmpty(value))
+                {
+                    UpdateFullFilePath();
+                }
             }
         }
-        #endregion
+
+        private string _FullFilePath;
+        public string FullFilePath
+        {
+            get => _FullFilePath;
+            set => SetAndNotify(ref _FullFilePath, value);
+        }
 
         // Commands
         #region RemoveImage
@@ -47,6 +50,10 @@ namespace POD.Models
         #endregion
 
         // Private Methods
+        private void UpdateFullFilePath()
+        {
+            FullFilePath = Environment.CurrentDirectory + "\\Data\\Images\\" + FileName;
+        }
 
     }
 
